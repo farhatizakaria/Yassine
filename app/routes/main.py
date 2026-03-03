@@ -13,8 +13,30 @@ def index():
 
 @main_bp.route('/dashboard')
 def dashboard():
-    """Dashboard page."""
-    return render_template('dashboard.html')
+    """Dashboard page with summary statistics.
+
+    Pulls counts from the database so the numbers update whenever records
+    are added/removed. Values are passed into the template where the
+    cards display them.
+    """
+    # avoid circular import by importing models here
+    from app.models.student import Student
+    from app.models.teacher import Teacher
+    from app.models.module import Module
+    from app.models.exam import Exam
+
+    student_count = Student.query.count()
+    teacher_count = Teacher.query.count()
+    module_count = Module.query.count()
+    exam_count = Exam.query.count()
+
+    return render_template(
+        'dashboard.html',
+        student_count=student_count,
+        teacher_count=teacher_count,
+        module_count=module_count,
+        exam_count=exam_count,
+    )
 
 
 @main_bp.errorhandler(404)

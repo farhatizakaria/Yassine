@@ -9,13 +9,7 @@
     <div class="dashboard-grid">
         <div class="card">
             <h3>👨‍🎓 Students</h3>
-            <div class="card-number">
-                {% set count = namespace(value=0) %}
-                {% for item in range(100) %}
-                    {% set count.value = count.value + 1 %}
-                {% endfor %}
-                0
-            </div>
+            <div class="card-number">{{ student_count }}</div>
             <p>Total registered students</p>
             <a href="{{ url_for('students.list_students') }}" class="btn btn-primary">View Students</a>
             <a href="{{ url_for('students.create_student') }}" class="btn btn-success">Add Student</a>
@@ -23,7 +17,7 @@
         
         <div class="card">
             <h3>👨‍🏫 Teachers</h3>
-            <div class="card-number">0</div>
+            <div class="card-number">{{ teacher_count }}</div>
             <p>Total teachers</p>
             <a href="{{ url_for('teachers.list_teachers') }}" class="btn btn-primary">View Teachers</a>
             <a href="{{ url_for('teachers.create_teacher') }}" class="btn btn-success">Add Teacher</a>
@@ -31,7 +25,7 @@
         
         <div class="card">
             <h3>📚 Modules</h3>
-            <div class="card-number">0</div>
+            <div class="card-number">{{ module_count }}</div>
             <p>Total modules</p>
             <a href="{{ url_for('modules.list_modules') }}" class="btn btn-primary">View Modules</a>
             <a href="{{ url_for('modules.create_module') }}" class="btn btn-success">Add Module</a>
@@ -39,7 +33,7 @@
         
         <div class="card">
             <h3>📝 Exams</h3>
-            <div class="card-number">0</div>
+            <div class="card-number">{{ exam_count }}</div>
             <p>Total exams</p>
             <a href="{{ url_for('exams.list_exams') }}" class="btn btn-primary">View Exams</a>
             <a href="{{ url_for('exams.create_exam') }}" class="btn btn-success">Add Exam</a>
