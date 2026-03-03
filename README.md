@@ -8,37 +8,58 @@ This is a comprehensive academic management system built with Flask for managing
 
 ## Installation
 
-### 1. Create Virtual Environment
+The project is designed to work the same on Linux, macOS and Windows. You
+can perform the setup manually or use the bundled `bootstrap.py` helper which
+creates a virtual environment, installs the dependencies and prints the
+commands you need to start the server.
+
+### Automatic (recommended)
 
 ```bash
-python3 -m venv venv
+# run this with the system python; it will create `venv` if it's missing
+python bootstrap.py
 ```
 
-### 2. Activate Virtual Environment
+Once the script completes you will see output such as:
 
-**On Linux/Mac:**
-```bash
-source venv/bin/activate
+```
+Setup complete. To run:
+    source venv/bin/activate           # or `venv\Scripts\activate` on Windows
+    python run.py
 ```
 
-**On Windows:**
-```bash
-venv\Scripts\activate
-```
+### Manual steps
 
-### 3. Install Dependencies
+1. Create a virtual environment (works on all platforms):
+
+   ```bash
+   python3 -m venv venv
+   ```
+
+2. Activate it:
+
+   **Linux/macOS:**
+   ```bash
+   source venv/bin/activate
+   ```
+   **Windows (PowerShell or cmd):**
+   ```bash
+   venv\Scripts\activate
+   ```
+
+3. Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Run the Application
+4. Run the application:
 
 ```bash
 python run.py
 ```
 
-The application will start at `http://localhost:5000`
+The app will start at `http://localhost:5000`.
 
 ## Database
 
