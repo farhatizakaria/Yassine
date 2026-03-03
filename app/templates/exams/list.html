@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Exams - LUS RSIS Management System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Exams</h2>
+    <a href="{{ url_for('exams.create_exam') }}" class="btn btn-success">Schedule New Exam</a>
+    
+    {% if exams.items %}
+    <table>
+        <thead>
+            <tr>
+                <th>Exam Code</th>
+                <th>Student</th>
+                <th>Module</th>
+                <th>Exam Date</th>
+                <th>Room</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in exams.items %}
+            <tr>
+                <td>{{ exam.exam_code }}</td>
+                <td>{{ exam.student.student_id }}</td>
+                <td>{{ exam.module.code }}</td>
+                <td>{{ exam.exam_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ exam.room_number }}</td>
+                <td>{{ exam.status }}</td>
+                <td>
+                    <div class="action-buttons">
+                        <a href="{{ url_for('exams.view_exam', exam_id=exam.id) }}" class="btn btn-primary">View</a>
+                        <a href="{{ url_for('exams.edit_exam', exam_id=exam.id) }}" class="btn btn-secondary">Edit</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if exams.pages > 1 %}
+    <div class="pagination">
+        {% if exams.has_prev %}
+            <a href="{{ url_for('exams.list_exams', page=exams.prev_num) }}">Previous</a>
+        {% endif %}
+        
+        {% for page_num in exams.iter_pages() %}
+            {% if page_num %}
+                {% if page_num == exams.page %}
+                    <span class="active">{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('exams.list_exams', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        
+        {% if exams.has_next %}
+            <a href="{{ url_for('exams.list_exams', page=exams.next_num) }}">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <p style="margin-top: 2rem; color: #7f8c8d;">No exams scheduled. <a href="{{ url_for('exams.create_exam') }}">Schedule one now</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

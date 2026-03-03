@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Modules - LUS RSIS Management System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Modules</h2>
+    <a href="{{ url_for('modules.create_module') }}" class="btn btn-success">Add New Module</a>
+    
+    {% if modules.items %}
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Teacher</th>
+                <th>Credits</th>
+                <th>Semester</th>
+                <th>Workload (hrs)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for module in modules.items %}
+            <tr>
+                <td>{{ module.code }}</td>
+                <td>{{ module.name }}</td>
+                <td>{{ module.teacher.first_name }} {{ module.teacher.last_name }}</td>
+                <td>{{ module.credits }}</td>
+                <td>{{ module.semester }}</td>
+                <td>{{ module.workload_hours }}</td>
+                <td>
+                    <div class="action-buttons">
+                        <a href="{{ url_for('modules.view_module', module_id=module.id) }}" class="btn btn-primary">View</a>
+                        <a href="{{ url_for('modules.edit_module', module_id=module.id) }}" class="btn btn-secondary">Edit</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if modules.pages > 1 %}
+    <div class="pagination">
+        {% if modules.has_prev %}
+            <a href="{{ url_for('modules.list_modules', page=modules.prev_num) }}">Previous</a>
+        {% endif %}
+        
+        {% for page_num in modules.iter_pages() %}
+            {% if page_num %}
+                {% if page_num == modules.page %}
+                    <span class="active">{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('modules.list_modules', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        
+        {% if modules.has_next %}
+            <a href="{{ url_for('modules.list_modules', page=modules.next_num) }}">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% else %}
+    <p style="margin-top: 2rem; color: #7f8c8d;">No modules found. <a href="{{ url_for('modules.create_module') }}">Add one now</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

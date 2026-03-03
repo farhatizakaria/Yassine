@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{{ module.code }} - LUS RSIS Management System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Module Details</h2>
+    
+    <div style="background-color: #ecf0f1; padding: 1.5rem; border-radius: 4px; margin-bottom: 2rem;">
+        <p><strong>Code:</strong> {{ module.code }}</p>
+        <p><strong>Name:</strong> {{ module.name }}</p>
+        <p><strong>Description:</strong> {{ module.description or '-' }}</p>
+        <p><strong>Teacher:</strong> <a href="{{ url_for('teachers.view_teacher', teacher_id=module.teacher.id) }}">{{ module.teacher.first_name }} {{ module.teacher.last_name }}</a></p>
+        <p><strong>Credits:</strong> {{ module.credits }}</p>
+        <p><strong>Semester:</strong> {{ module.semester }}</p>
+        <p><strong>Workload (hours/week):</strong> {{ module.workload_hours }}</p>
+        <p><strong>Total Exams:</strong> {{ module.exams|length }}</p>
+    </div>
+    
+    {% if module.exams %}
+    <h3>Scheduled Exams</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Exam Code</th>
+                <th>Student</th>
+                <th>Exam Date</th>
+                <th>Room</th>
+                <th>Score</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in module.exams %}
+            <tr>
+                <td><a href="{{ url_for('exams.view_exam', exam_id=exam.id) }}">{{ exam.exam_code }}</a></td>
+                <td><a href="{{ url_for('students.view_student', student_id=exam.student.id) }}">{{ exam.student.student_id }}</a></td>
+                <td>{{ exam.exam_date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ exam.room_number }}</td>
+                <td>{{ exam.score or '-' }}</td>
+                <td>{{ exam.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    
+    <div style="margin-top: 2rem;">
+        <a href="{{ url_for('modules.edit_module', module_id=module.id) }}" class="btn btn-secondary">Edit</a>
+        <a href="{{ url_for('modules.list_modules') }}" class="btn btn-secondary">Back to List</a>
+        <form method="POST" action="{{ url_for('modules.delete_module', module_id=module.id) }}" style="display: inline; margin: 0;">
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this module?')">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

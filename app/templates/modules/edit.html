@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Module - LUS RSIS Management System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Edit Module</h2>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="code">Code</label>
+            <input type="text" id="code" name="code" value="{{ module.code }}" disabled>
+            <small>Code cannot be changed</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="name">Name *</label>
+            <input type="text" id="name" name="name" value="{{ module.name }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description">{{ module.description or '' }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="credits">Credits *</label>
+            <input type="number" id="credits" name="credits" value="{{ module.credits }}" min="1" max="10" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="workload_hours">Workload (hours/week) *</label>
+            <input type="number" id="workload_hours" name="workload_hours" value="{{ module.workload_hours }}" min="1" max="24" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="teacher_id">Teacher</label>
+            <input type="text" id="teacher_id" name="teacher_id" value="{{ module.teacher.first_name }} {{ module.teacher.last_name }}" disabled>
+            <small>Teacher cannot be changed</small>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Update Module</button>
+            <a href="{{ url_for('modules.view_module', module_id=module.id) }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Add Module - LUS RSIS Management System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Add New Module</h2>
+    
+    <form method="POST">
+        <div class="form-group">
+            <label for="code">Code *</label>
+            <input type="text" id="code" name="code" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="name">Name *</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="credits">Credits *</label>
+            <input type="number" id="credits" name="credits" min="1" max="10" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="semester">Semester (1-6) *</label>
+            <select id="semester" name="semester" required>
+                <option value="">Select semester</option>
+                {% for i in range(1, 7) %}
+                <option value="{{ i }}">Semester {{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="workload_hours">Workload (hours/week) *</label>
+            <input type="number" id="workload_hours" name="workload_hours" min="1" max="24" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="teacher_id">Teacher *</label>
+            <select id="teacher_id" name="teacher_id" required>
+                <option value="">Select teacher</option>
+                {% for teacher in teachers %}
+                <option value="{{ teacher.id }}">{{ teacher.first_name }} {{ teacher.last_name }} ({{ teacher.matricule }}) - {{ teacher.workload_hours }}/{{ teacher.max_workload }} hrs</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Create Module</button>
+            <a href="{{ url_for('modules.list_modules') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
